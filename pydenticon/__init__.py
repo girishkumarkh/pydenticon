@@ -186,7 +186,7 @@ class Generator(object):
 
         return [int(digest[i * 2:i * 2 + 2], 16) for i in range(16)]
 
-    def _generate_png(self, matrix, width, height, padding, foreground, background):
+    def _generate_png(self, matrix, width, height, padding, foreground, background, in_memory):
         """
         Generates an identicon image in the PNG format out of the passed block
         matrix, with the requested width, height, padding, foreground colour,
@@ -279,7 +279,7 @@ class Generator(object):
 
         return "\n".join(["".join([foreground if cell else background for cell in row]) for row in matrix])
 
-    def generate(self, data, width, height, padding=(0, 0, 0, 0), output_format="png", inverted=False):
+    def generate(self, data, width, height, padding=(0, 0, 0, 0), output_format="png", inverted=False, in_memory):
         """
         Generates an identicon image with requested width, height, padding, and
         output format, optionally inverting the colours in the indeticon
@@ -330,7 +330,7 @@ class Generator(object):
 
         # Generate the identicon in requested format.
         if output_format == "png":
-            return self._generate_png(matrix, width, height, padding, foreground, background)
+            return self._generate_png(matrix, width, height, padding, foreground, background, in_memory)
         if output_format == "ascii":
             return self._generate_ascii(matrix, foreground, background)
         else:
