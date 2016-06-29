@@ -35,7 +35,7 @@ class Generator(object):
     optional padding.
     """
 
-    def __init__(self, rows, columns, digest=hashlib.md5, foreground=["#000000"], background="#ffffff"):
+    def __init__(self, rows, columns, digest=hashlib.md5, foreground=["#000000"], background="#ffffff", in_memory=False):
         """
         Initialises an instance of identicon generator. The instance can be used
         for creating identicons with differing image formats, sizes, and with
@@ -84,6 +84,8 @@ class Generator(object):
         self.background = background
 
         self.digest = digest
+        
+        self.in_memory = in_memory
 
     def _get_bit(self, n, hash_bytes):
         """
@@ -245,6 +247,8 @@ class Generator(object):
 
         # Save the image to stream.
         image.save(stream, format="png", optimize=True)
+        if in_memory:
+            return stream
         image_raw = stream.getvalue()
         stream.close()
 
